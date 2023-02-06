@@ -41,3 +41,26 @@ def get_visual(input, target, predictions):
         img_list.append(img)
 
     return img_list
+
+
+def pred_img_visual(input_img, pred_img, h, w):
+    in_img = inv_normalize(input_img)
+    t = transforms.Resize((h,w))
+
+    in_img = t(in_img)
+    pred_img = t(pred_img)
+
+    in_img = in_img.reshape((1, h, w))
+    pred_img = pred_img.reshape((2, h, w))
+
+    in_img = to_image(in_img)
+    pred_img = to_image(pred_img)
+
+    pred_img = np.dstack((in_img, pred_img))
+    in_img = np.dstack((in_img, in_img, in_img))
+
+    pred_img = cv2.cvtColor(pred_img, cv2.COLOR_LAB2RGB)
+
+    img = np.concatenate([in_img, pred_img], axis=1)
+    return {"pred_image": pred_img,
+            "conc_image": img}

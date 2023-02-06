@@ -2,16 +2,16 @@ import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
 from torch.utils.tensorboard.writer import SummaryWriter
-import dataset
-import visual
-import support_functions
+from dataset import *
+from visual import *
+from support_functions import *
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 board = SummaryWriter("board")
 
-train_data = dataset.MyDataset("train_data.txt")
-test_data = dataset.MyDataset("test_data.txt")
+train_data = MyDataset("train_data.txt")
+test_data = MyDataset("test_data.txt")
 
 train_loader = DataLoader(train_data, batch_size=20, shuffle=True, num_workers=3)
 test_loader = DataLoader(test_data, batch_size=20, shuffle=False, num_workers=3)
@@ -29,9 +29,9 @@ optimizer = torch.optim.Adam(model.parameters(), lr=0.0001)
 
 def training():
 
-    epochs = 100
-    i = 577500
-    b = 45000
+    epochs = 10
+    i = 0
+    b = 0
 
     for epoch in range(9,epochs):
 
@@ -48,12 +48,11 @@ def training():
             i += 1
             print(f'Epoch: {epoch+1} Step: {step} Loss: {loss.item()}')
             if step == 1:
-                img_list = visual.get_visual(inputs, labels, outputs)
-                support_functions.board_add_images(board, "Train", img_list, i, names = names)
+                img_list = get_visual(inputs, labels, outputs)
+                board_add_images(board, "Train", img_list, i, names = names)
             if step % 5000 == 0:
-                img_list = dataset.get_visual(inputs, labels, outputs)
-                support_functions.board_add_images(board, "Train", img_list, i, names = names)
-            board.add_scalars("Train_losses", {"Net_loss": loss.item()}, i)
+                img_list = get_visual(inputs, labels, outputs)
+                board_add_images(board, "Train", img_list, i, names = names)
 
         with torch.no_grad():
             for vstep, vdata in enumerate(test_loader, 1):
@@ -64,8 +63,8 @@ def training():
                 vloss = criterion(voutputs, vlabels)
                 b += 1
                 if vstep % 50 == 0:
-                    img_list = visual.get_visual(vinputs, vlabels, voutputs)
-                    support_functions.board_add_images(board, "Test", img_list, b, names=vnames)
+                    img_list = get_visual(vinputs, vlabels, voutputs)
+                    board_add_images(board, "Test", img_list, b, names=vnames)
                     board.add_scalars("Test_losses", {"Net_loss": vloss.item()}, b)
 
         torch.save(model.state_dict(), ("model_saves/Epoch_" + str(epoch) + '.pt'))

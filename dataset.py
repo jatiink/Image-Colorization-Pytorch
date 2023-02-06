@@ -48,7 +48,8 @@ class MyDataset(Dataset):
                     read_flag = True
                 else:
                     indx = random.randint(0, len(self.img_names)-1)
-            except:
+            except Exception as e:
+                print(e)
                 indx = random.randint(0, len(self.img_names)-1)
 
         input_img = lab[: , :, :1]

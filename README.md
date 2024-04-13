@@ -43,7 +43,7 @@ python get_result.py --img "Image path" --save-conc
 ```
 python get_result.py --img_root "C:/user/data/img.jpg" --show --save-output
 ```
-#### Output will save in same directory.
+#### Output will be saved in same directory.
 ### Note: There is a limitations of colors in trained model.
 
 ## Training Results

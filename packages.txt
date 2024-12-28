@@ -6,3 +6,4 @@ matplotlib
 tensorboard
 streamlit
 Pillow
+torchvision

@@ -1,0 +1,9 @@
+scikit-image
+torch
+numpy
+opencv-python-headless
+matplotlib
+tensorboard
+streamlit
+Pillow
+torchvision

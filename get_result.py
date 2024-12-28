@@ -19,7 +19,7 @@ h, w = image.shape[0], image.shape[1]
 in_img = transform(image)
 in_img = in_img.reshape((1, 1, 256, 256))
 
-model = model = torch.hub.load('mateuszbuda/brain-segmentation-pytorch', 'unet',
+model = torch.hub.load('mateuszbuda/brain-segmentation-pytorch', 'unet',
     in_channels=1, out_channels=2, init_features=32, pretrained=False)
 model.load_state_dict(torch.load('model.pt', map_location=torch.device('cpu')))
 model.eval()

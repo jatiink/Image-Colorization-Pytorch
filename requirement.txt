@@ -1,7 +1,7 @@
+opencv-python-headless==4.5.1.48
 scikit-image
 torch
 numpy
-opencv-python-headless
 matplotlib
 tensorboard
 streamlit

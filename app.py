@@ -32,7 +32,7 @@ if uploaded_file is not None:
 
             # Get predictions
             images = prediction(in_img, h, w)
-            st.image(images["pred_image"], caption="Predicted Image", use_column_width=True)
+            st.image(images["pred_image"], use_container_width=True)
 
             # Show download button after displaying the image
             im1 = cv2.cvtColor(images["pred_image"], cv2.COLOR_RGB2BGR)
@@ -41,4 +41,3 @@ if uploaded_file is not None:
             byte_image = buffer.tobytes()
             # Save the image with a new name
             st.download_button("Download Image", byte_image, f"{uploaded_file.name.split('.')[0]}_colored.jpg", "image/jpeg")
-

@@ -50,7 +50,7 @@ if uploaded_file is not None:
                 use_container_width="auto",  # Maintains aspect ratio
                 clamp=True,  # Ensures proper pixel value range
                 output_format="PNG"  # Use PNG for better quality
-            )[2]
+            )
 
 
             # Show download button after displaying the image

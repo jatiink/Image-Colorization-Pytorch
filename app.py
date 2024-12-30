@@ -24,7 +24,15 @@ st.title("Image Colorization")
 uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
 
 if uploaded_file is not None:
+    show_original = st.checkbox("Show original image")
     
+    # Display uploaded image if checkbox is selected
+    if show_original:
+        image = cv2.imdecode(np.frombuffer(uploaded_file.read(), np.uint8), 0)
+        st.image(image, caption="Original Image", use_column_width="auto")
+        # Reset file pointer
+        uploaded_file.seek(0)
+        
     if st.button("Colorize"):
         with st.spinner("Colorizing..."):         
             # Read and process image

@@ -47,6 +47,7 @@ if uploaded_file is not None:
             # Display high-res image
             st.image(
                 images["pred_image"],
+                caption="Colored Image",
                 use_container_width="auto",  # Maintains aspect ratio
                 clamp=True,  # Ensures proper pixel value range
                 output_format="PNG"  # Use PNG for better quality

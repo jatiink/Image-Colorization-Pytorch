@@ -44,7 +44,7 @@ def get_visual(input, target, predictions):
 
 
 def pred_img_visual(input_img, pred_img, h, w):
-    in_img = inv_normalize(input_img)
+    # in_img = inv_normalize(input_img)
     t = transforms.Resize((h,w))
 
     in_img = t(in_img)

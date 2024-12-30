@@ -6,6 +6,10 @@ from dataset import *
 from visual import * 
 
 # Load model code remains same...
+model = torch.hub.load('mateuszbuda/brain-segmentation-pytorch', 'unet',
+    in_channels=1, out_channels=2, init_features=32, pretrained=False)
+model.load_state_dict(torch.load('model.pt', map_location=torch.device('cpu'), weights_only=True))
+model.eval()
 
 def prediction(in_img, h, w):
     original_img = in_img
@@ -19,7 +23,7 @@ def prediction(in_img, h, w):
     return pred_img_visual(original_img, pred, h, w)
 
 # Streamlit app layout
-st.set_page_config(layout="wide")  # Use wide layout for better image display
+st.set_page_config()  # Use wide layout for better image display
 st.title("Image Colorization")
 uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
 
@@ -29,7 +33,7 @@ if uploaded_file is not None:
     # Display uploaded image if checkbox is selected
     if show_original:
         image = cv2.imdecode(np.frombuffer(uploaded_file.read(), np.uint8), 0)
-        st.image(image, caption="Original Image", use_column_width="auto")
+        st.image(image, caption="Original Image", use_container_width="auto")
         # Reset file pointer
         uploaded_file.seek(0)
         
@@ -43,7 +47,7 @@ if uploaded_file is not None:
             # Display high-res image
             st.image(
                 images["pred_image"],
-                use_column_width="auto",  # Maintains aspect ratio
+                use_container_width="auto",  # Maintains aspect ratio
                 clamp=True,  # Ensures proper pixel value range
                 output_format="PNG"  # Use PNG for better quality
             )[2]

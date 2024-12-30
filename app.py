@@ -8,9 +8,15 @@ from visual import *
 # Load model code remains same...
 
 def prediction(in_img, h, w):
+    original_img = in_img
+    in_img= transform(in_img)
+    in_img = in_img.reshape((1, 1, 256, 256))
     with torch.no_grad():
         pred = model(in_img)
-    return pred_img_visual(in_img, pred, h, w)
+        print(pred.shape)
+        image = np.concatenate((in_img, pred), axis=1)
+        print(image.shape)
+    return pred_img_visual(original_img, pred, h, w)
 
 # Streamlit app layout
 st.set_page_config(layout="wide")  # Use wide layout for better image display
@@ -24,11 +30,7 @@ if uploaded_file is not None:
             # Read and process image
             image = cv2.imdecode(np.frombuffer(uploaded_file.read(), np.uint8), 0)
             h, w = image.shape[0], image.shape[1]
-            in_img = transform(image)
-            in_img = in_img.reshape((1, 1, 256, 256))
-
-            # Get predictions
-            images = prediction(in_img, h, w)
+            images = prediction(image, h, w)
             
             # Display high-res image
             st.image(
